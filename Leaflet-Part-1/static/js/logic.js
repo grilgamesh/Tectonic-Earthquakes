@@ -18,7 +18,7 @@ var baseMaps = {
 
 // Define a map object.
 var myMap = L.map("map", {
-  center: [0, 45],
+  center: [15, 180],
   zoom: 3,
   layers: [street]
 });
@@ -94,6 +94,10 @@ d3.json(url).then(function(response) {
 
     // Add circles to the map.
     var coords = [earthquakes[i].geometry.coordinates[1],earthquakes[i].geometry.coordinates[0]];
+    //trick to display data centred on pacific better
+    if (coords[1]<-20){
+      coords[1] += 360
+    };
     var size = earthquakes[i].properties.mag * 50000;
 
     L.circle(coords, {
