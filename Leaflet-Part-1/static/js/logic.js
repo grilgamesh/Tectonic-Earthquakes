@@ -18,7 +18,7 @@ var baseMaps = {
 
 // Define a map object.
 var myMap = L.map("map", {
-  center: [15, 180],
+  center: [-0, -0],
   zoom: 3,
   layers: [street]
 });
@@ -94,10 +94,10 @@ d3.json(url).then(function(response) {
 
     // Add circles to the map.
     var coords = [earthquakes[i].geometry.coordinates[1],earthquakes[i].geometry.coordinates[0]];
-    //trick to display data centred on pacific better
-    if (coords[1]<-20){
-      coords[1] += 360
-    };
+    // //trick to display data centred on pacific better
+    // if (coords[1]<-20){
+    //   coords[1] += 360
+    // };
     var size = earthquakes[i].properties.mag * 50000;
 
     L.circle(coords, {
@@ -108,8 +108,17 @@ d3.json(url).then(function(response) {
       radius: size
     }).bindPopup(`<h1>${earthquakes[i].properties.place}</h1> <hr> <h3>Magnitute: ${earthquakes[i].properties.mag}</h3><hr> <h3>Depth: ${earthquakes[i].geometry.coordinates[2]}</h3>`).addTo(myMap);
   }
-
 });
 
 
+var tectonic_url = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
+d3.json(tectonic_url).then(function(response){
+  console.log("read in url");
+  console.log(response)
+  L.geoJson(response, {
+    color: "#FF0000",
+    weight: 2
+  }).addTo(myMap)
+});
   
